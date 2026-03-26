@@ -161,7 +161,7 @@ export function MobileAppShell() {
   const [selectedStoryId, setSelectedStoryId] = useState<string | null>(null);
   const [selectedCondition, setSelectedCondition] = useState("Healthy");
   const scrollRef = useRef<HTMLDivElement | null>(null);
-  const sectionRefs = useRef<Record<AppTab, HTMLDivElement | null>>({
+  const sectionRefs = useRef<Record<AppTab, HTMLElement | null>>({
     stories: null,
     map: null,
     camera: null,
