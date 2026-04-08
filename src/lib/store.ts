@@ -72,6 +72,16 @@ export const catSightings: CatSighting[] = [
     claimedBy: "shelter1",
     shelterId: "nb-rescue",
   },
+  {
+    id: "3",
+    photoUrl: "/placeholder-cat.jpg",
+    description: "Gray cat near Busch dining hall, limping slightly.",
+    location: { lat: 40.5235, lng: -74.4585, address: "Near Livingston/Busch walkway" },
+    areaLabel: "Rutgers Busch Campus",
+    reportedAt: new Date(Date.now() - 43200000).toISOString(),
+    reportedBy: "demo",
+    status: "pending",
+  },
 ];
 
 export function getShelterById(id: string) {
