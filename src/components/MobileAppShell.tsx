@@ -5,12 +5,11 @@ import { useAuth } from "@/components/AuthProvider";
 import { getSightingsForShelter } from "@/lib/store";
 import type { CatSighting } from "@/types";
 
-type AppTab = "home" | "map" | "camera" | "organization" | "account";
+type AppTab = "home" | "map" | "organization" | "account";
 
 const TABS: { id: AppTab; label: string }[] = [
   { id: "home", label: "Home" },
   { id: "map", label: "Map" },
-  { id: "camera", label: "Camera" },
   { id: "organization", label: "Organization" },
   { id: "account", label: "Account" },
 ];
@@ -253,7 +252,6 @@ export function MobileAppShell() {
   const [selectedOrgId, setSelectedOrgId] = useState(ORGANIZATIONS[0].id);
   const [selectedBoardId, setSelectedBoardId] = useState<string | null>(null);
   const [selectedStoryId, setSelectedStoryId] = useState<string | null>(null);
-  const [selectedCondition, setSelectedCondition] = useState("Healthy");
   const [selectedSightingId, setSelectedSightingId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -262,7 +260,6 @@ export function MobileAppShell() {
   const sectionRefs = useRef<Record<AppTab, HTMLElement | null>>({
     home: null,
     map: null,
-    camera: null,
     organization: null,
     account: null,
   });
@@ -464,7 +461,11 @@ export function MobileAppShell() {
                   srcDoc={mapSrcDoc}
                 />
                 <div className="absolute inset-x-3 bottom-3 z-10">
-                  <button type="button" onClick={() => goToTab("camera")} className="btn-primary w-full shadow-lg">
+                  <button
+                    type="button"
+                    onClick={() => document.getElementById("report-camera")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                    className="btn-primary w-full shadow-lg"
+                  >
                     Upload sighting
                   </button>
                 </div>
@@ -490,57 +491,6 @@ export function MobileAppShell() {
                     </button>
                   ))}
                 </div>
-              </div>
-            </section>
-
-            {/* Camera */}
-            <section
-              ref={(el) => {
-                sectionRefs.current.camera = el;
-              }}
-              className="mobile-panel bg-gradient-to-b from-stone-900 via-stone-800 to-black text-white"
-            >
-              <h2 className="text-xl font-semibold">Camera report</h2>
-              <p className="mt-1 text-sm text-stone-300">In the mobile app, this opens your camera instantly.</p>
-              <div className="mt-4 flex h-56 items-center justify-center rounded-3xl border border-white/20 bg-gradient-to-br from-stone-700 to-stone-900">
-                <div className="rounded-full border border-white/50 px-4 py-2 text-sm text-white/90">
-                  Camera preview (demo)
-                </div>
-              </div>
-              <div className="mt-4 space-y-3 rounded-2xl border border-white/15 bg-white/5 p-3">
-                <label className="block text-xs text-stone-300">Area</label>
-                <input
-                  readOnly
-                  value="College Ave / Easton Ave"
-                  className="w-full rounded-lg border border-white/20 bg-black/30 px-3 py-2 text-sm text-white"
-                />
-                <label className="block text-xs text-stone-300">What did you see?</label>
-                <textarea
-                  readOnly
-                  value="Friendly orange tabby near parking lot. Looks hungry."
-                  className="h-20 w-full resize-none rounded-lg border border-white/20 bg-black/30 px-3 py-2 text-sm text-white"
-                />
-                <label className="block text-xs text-stone-300">Condition</label>
-                <div className="flex flex-wrap gap-2">
-                  {["Healthy", "Sickly", "Injured", "Needs Urgent Help"].map((condition) => (
-                    <button
-                      key={condition}
-                      type="button"
-                      onClick={() => setSelectedCondition(condition)}
-                      className={`rounded-full border px-3 py-1 text-xs ${
-                        selectedCondition === condition
-                          ? "border-scarlet-400 bg-scarlet-500/30 text-white"
-                          : "border-white/25 bg-black/20 text-stone-200"
-                      }`}
-                    >
-                      {condition}
-                    </button>
-                  ))}
-                </div>
-                <p className="text-xs text-stone-300">Selected: {selectedCondition}</p>
-                <button type="button" className="btn-primary w-full">
-                  Submit sighting in-app
-                </button>
               </div>
             </section>
 
@@ -668,7 +618,7 @@ export function MobileAppShell() {
             </section>
           </div>
 
-          <div className="grid grid-cols-5 gap-1 border-t border-white/10 bg-black px-1 py-2">
+          <div className="grid grid-cols-4 gap-1 border-t border-white/10 bg-black px-1 py-2">
             {TABS.map((tab) => (
               <button
                 key={tab.id}
